@@ -1,0 +1,4 @@
+__pycache__/
+*.pyc
+.banu_blueteam/
+report.md
