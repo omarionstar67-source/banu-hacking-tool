@@ -22,6 +22,7 @@
 | Персистентность | `persistence` | Проверка cron, systemd-юнитов, rc.local, autostart, профилей shell |
 | Целостность файлов | `integrity` | Хеширование важных файлов, сохранение baseline, поиск изменений |
 | SUID/SGID | `suid` | Поиск SUID/SGID-бинарников и world-writable файлов |
+| Признаки руткитов | `rootkit` | LD_PRELOAD, скрытые от ps процессы, необычные модули ядра, подмена coreutils |
 | Отчёт | `report` | Свод всех проверок в Markdown/JSON |
 
 Все модули работают **только на чтение** (или создают свои файлы состояния в
@@ -41,6 +42,7 @@ python3 -m blueteam processes --min-score 40
 python3 -m blueteam logs --since "2 hours ago"
 python3 -m blueteam integrity --init          # создать baseline
 python3 -m blueteam integrity                 # сравнить с baseline
+python3 -m blueteam rootkit                   # признаки руткитов
 ```
 
 Без зависимостей: используется только стандартная библиотека Python 3.8+.
@@ -65,6 +67,7 @@ blueteam/
 │   ├── logs.py
 │   ├── persistence.py
 │   ├── integrity.py
+│   ├── rootkit.py
 │   └── suid.py
 └── report.py           # сборка markdown/json-отчёта
 ```

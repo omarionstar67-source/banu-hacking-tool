@@ -13,6 +13,7 @@ from . import (
     network,
     persistence,
     processes,
+    rootkit,
     suid,
     users,
 )
@@ -28,6 +29,7 @@ REGISTRY: Dict[str, Callable[..., CheckResult]] = {
     "persistence": persistence.run,
     "integrity": integrity.run,
     "suid": suid.run,
+    "rootkit": rootkit.run,
 }
 
 DESCRIPTIONS: Dict[str, str] = {
@@ -39,6 +41,7 @@ DESCRIPTIONS: Dict[str, str] = {
     "persistence": "Механизмы автозапуска и персистентности",
     "integrity": "Контроль целостности важных файлов",
     "suid": "Поиск SUID/SGID и world-writable файлов",
+    "rootkit": "Признаки руткитов: LD_PRELOAD, скрытые процессы, модули",
 }
 
 ALL_CHECKS: List[str] = list(REGISTRY.keys())

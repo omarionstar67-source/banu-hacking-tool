@@ -12,7 +12,15 @@ sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 from blueteam.core import CheckResult, CheckStatus, Finding, Severity  # noqa: E402
 from blueteam.modules import ALL_CHECKS, DESCRIPTIONS, REGISTRY  # noqa: E402
-from blueteam.modules import integrity, logs, persistence, processes, suid, users  # noqa: E402
+from blueteam.modules import (  # noqa: E402
+    integrity,
+    logs,
+    persistence,
+    processes,
+    rootkit,
+    suid,
+    users,
+)
 from blueteam.report import build_report  # noqa: E402
 
 
@@ -208,6 +216,26 @@ class TestUsers(unittest.TestCase):
     def test_nologin_shells_present(self):
         self.assertIn("/usr/sbin/nologin", users.NOLOGIN_SHELLS)
         self.assertIn("/bin/false", users.NOLOGIN_SHELLS)
+
+
+class TestRootkit(unittest.TestCase):
+    def test_suspicious_module_detection(self):
+        self.assertFalse(rootkit._suspicious_module("nf_conntrack"))
+        self.assertFalse(rootkit._suspicious_module("iptable_nat"))
+        self.assertFalse(rootkit._suspicious_module("aesni_intel"))
+
+    def test_ld_preload_shape(self):
+        data = rootkit._ld_preload()
+        self.assertIn("file_entries", data)
+        self.assertIn("env", data)
+        self.assertIsInstance(data["file_entries"], list)
+
+    def test_hidden_pids_is_list(self):
+        self.assertIsInstance(rootkit._hidden_pids(), list)
+
+    def test_run_returns_result(self):
+        r = rootkit.run()
+        self.assertEqual(r.name, "rootkit")
 
 
 class TestReport(unittest.TestCase):

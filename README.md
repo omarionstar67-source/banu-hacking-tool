@@ -1,3 +1,40 @@
+# BANU Hacking Tool 🛠️
+
+> ⚠️ **Обновление проекта.** Исходный `banu.py` — это меню-обёртка над внешними
+> утилитами (`hping3`, `hydra`, `nmap`, `aircrack-ng`), где часть «200 функций» —
+> заглушки, а наступательные модули (DDoS, бэкдоры, руткиты, брутфорс соцсетей,
+> фишинг) небезопасны и нелегальны вне письменного согласия владельца цели.
+> Они **не дорабатываются**.
+>
+> Вместо этого в репозитории развивается **защитный blue-team модуль** —
+> см. [`blueteam/`](blueteam/README.md).
+
+---
+
+## 🛡️ BANU Blue Team Module (актуальная часть)
+
+Инструмент для **аудита и мониторинга собственного хоста**. Работает только на
+чтение, без сетевых атак, без внешних зависимостей.
+
+```bash
+python3 -m blueteam list                       # список проверок
+python3 -m blueteam inventory                  # ОС, ресурсы, интерфейсы, порты
+python3 -m blueteam processes --min-score 40   # подозрительные процессы
+python3 -m blueteam logs --since "2 hours ago" # разбор журналов
+python3 -m blueteam persistence                # cron, автозапуск, authorized_keys
+python3 -m blueteam integrity --init           # baseline целостности
+python3 -m blueteam rootkit                    # LD_PRELOAD, скрытые процессы, модули
+python3 -m blueteam report --format markdown --output report.md
+```
+
+Проверки: `inventory`, `users`, `processes`, `network`, `logs`, `persistence`,
+`integrity`, `suid`, `rootkit`. Тесты: `python3 -m unittest discover -s tests`.
+
+---
+
+## 📜 Исходный BANU (историческая часть, не развивается)
+
+
 markdown
 # BANU Hacking Tool 🛠️
 
